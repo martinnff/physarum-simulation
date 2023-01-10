@@ -275,7 +275,7 @@ int main(){
 
 	//initialize agents at random position looking at the center
 	int n_agents;
-	std::cout<<"Introduce número de agentes:"<<std::endl;
+	std::cout<<"Number of particles:"<<std::endl;
 	std::cin>>n_agents;
 	std::vector<Agent> agents;
 
