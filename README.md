@@ -12,7 +12,7 @@ The implementation has two variants of particles, each attracted to traces of th
 ![Alt text](https://github.com/martinnff/physarum-simulation/blob/main/i3.jpeg "im3")
 ![Alt text](https://github.com/martinnff/physarum-simulation/blob/main/i4.jpeg "im4")
 
-##Usage
+## Usage
 
 To run this code you need to install opencv for c++. On linux I followed this guide https://www.geeksforgeeks.org/how-to-install-opencv-in-c-on-linux/. A copy of the eigen library is also needed, there is one present in this repository downloaded from the oficial site https://eigen.tuxfamily.org/index.php?title=Main_Page. If you use other version of eigen you need to change the CMakeLists.txt accordingly.
 
