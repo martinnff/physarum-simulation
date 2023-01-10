@@ -2,9 +2,9 @@
 A two-dimensional particle flow simulation based on the exploratory growth of genus physarium 
 
 
-This implementation is based on the paper **Characteristics of pattern formation and evolution in approximations of physarum transport networks.**  https://doi.org/10.1162/artl.2010.16.2.16202 by Jeff Jones. The simulation uses two layers, one that stores the position and angle of movement of the particles and the other that contains the evolution of the trail left by these particles. The simulation proceeds in stages, each particle has three sensors (lateral and frontal) placed at a given distance and angle. It uses these sensors to evaluate the concentration of the trace in its environment and takes the direction with the highest concentration of attractant. As the particles move, they leave a trace behind them that eventually dissipates with each step.
+This implementation is based on the paper **Characteristics of pattern formation and evolution in approximations of physarum transport networks.**  https://doi.org/10.1162/artl.2010.16.2.16202 by Jeff Jones. The simulation uses two layers, one that stores the position and angle of movement of the particles and the other that contains the evolution of the trail left by these particles. The simulation proceeds in stages, each particle has three sensors (two in the laterals and one frontal) placed at a given distance and angle. It uses these sensors to evaluate the concentration of the trace in its environment and takes the direction with the highest concentration of attractant. As the particles move, they leave a trace behind them that eventually dissipates with each step. It also has a diffusion step in which the trace intensity of each pixel is computed as the mean value of the trace in the adjacent pixels.
 
-The implementation has two variants of particles, each attracted to traces of the same type and repelled by those of the opposite type. With these simple rules it is possible to observe the appearance of complex patterns such as those shown in the images below. It also has a diffusion step in which the trace intensity of each pixel is computed as the mean value of the trace in the adjacent pixels.
+The implementation has two variants of particles, each attracted to traces of the same type and repelled by those of the opposite type. With these simple rules it is possible to observe the appearance of complex patterns such as those shown in the images below. 
 
 
 ![Alt text](https://github.com/martinnff/physarum-simulation/blob/main/i1.jpeg "im1")
@@ -24,13 +24,13 @@ sudo apt install make
 sudo apt install cmake
 ```
 
-Open a termial on the project folder and reate a new directory inside named build, then move into the build folder.
+Open a termial on the project folder and create a new directory inside named build, then move into the build folder.
 
 ```bash
 mkdir build
 cd build
 ```
-Inside the build folder run cmake and make to get create the compiling instructions and create a extecutable.
+Inside the build folder run cmake and make to generate the compiling instructions and create an extecutable.
 
 ```bash
 cmake ..
