@@ -4,7 +4,7 @@ A two-dimensional particle flow simulation based on the exploratory growth of ge
 
 This implementation is based on the paper Characteristics of pattern formation and evolution in approximations of physarum transport networks.  https://doi.org/10.1162/artl.2010.16.2.16202 by Jeff Jones. The simulation uses two layers, one that stores the position and angle of movement of the particles and the other that contains the evolution of the trail left by these particles. The simulation proceeds in stages, each particle has three sensors (lateral and frontal) placed at a given distance and angle. It uses these sensors to evaluate the concentration of the trace in its environment and takes the direction with the highest concentration of attractant. As the particles move, they leave a trace behind them that eventually dissipates with each step.
 
-The implementation has two variants of particles, each attracted to traces of the same type and repelled by those of the opposite type. Con estas reglas sencillas es posible obserbas la aparicion de patrones complejos como los que se muestran en las imagenes de abajo.
+The implementation has two variants of particles, each attracted to traces of the same type and repelled by those of the opposite type. With these simple rules it is possible to observe the appearance of complex patterns such as those shown in the images below.
 
 
 ![Alt text](https://github.com/martinnff/physarum-simulation/blob/main/i1.jpeg "im1")
@@ -12,3 +12,32 @@ The implementation has two variants of particles, each attracted to traces of th
 ![Alt text](https://github.com/martinnff/physarum-simulation/blob/main/i3.jpeg "im3")
 ![Alt text](https://github.com/martinnff/physarum-simulation/blob/main/i4.jpeg "im4")
 
+##Usage
+
+To run this code you need to install opencv for c++. On linux I followed this guide https://www.geeksforgeeks.org/how-to-install-opencv-in-c-on-linux/. A copy of the eigen library is also needed, there is one present in this repository downloaded from the oficial site https://eigen.tuxfamily.org/index.php?title=Main_Page. If you use other version of eigen you need to change the CMakeLists.txt accordingly.
+
+If you haven't installed cmake and make install them via:
+
+```bash
+sudo apt update
+sudo apt install make
+sudo apt install cmake
+```
+
+Open a termial on the project folder and reate a new directory inside named build, then move into the build folder.
+
+```bash
+mkdir build
+cd build
+```
+Inside the build folder run cmake and make to get create the compiling instructions and create a extecutable.
+
+```bash
+cmake ..
+make
+```
+Then you can run the executable via:
+
+```bash
+./physarum_sim
+```
