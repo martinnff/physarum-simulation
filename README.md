@@ -35,7 +35,7 @@ Open a termial on the project folder and create a new directory inside named bui
 mkdir build
 cd build
 ```
-Inside the build folder run cmake and make to generate the compiling instructions and create an extecutable.
+Inside the build folder run cmake and make to generate the compiling instructions and create an executable.
 
 ```bash
 cmake ..
