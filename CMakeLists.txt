@@ -1,0 +1,10 @@
+cmake_minimum_required(VERSION 2.8)
+project( physarum_sim )
+find_package( OpenCV REQUIRED )
+add_subdirectory( "./eigen-3.4.0" )
+set(CMAKE_CXX_FLAGS "${CMAKE_C_FLAGS} -fopenmp")
+include_directories( ${OpenCV_INCLUDE_DIRS} )
+add_executable( physarum_sim physarum_sim.cpp )
+target_link_libraries( physarum_sim ${OpenCV_LIBS} )
+target_link_libraries( physarum_sim eigen )
+
