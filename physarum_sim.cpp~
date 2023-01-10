@@ -255,7 +255,6 @@ int main(){
 	std::cout<<"N Threads:"<<std::endl;
 	std::cin>>n_threads;
     omp_set_num_threads(n_threads);
-
 	//create opencv mat for the visualitation
 	cv::Mat fin((int)HEIGHT,(int)WIDTH, CV_64FC3, cv::Scalar(1,1,1,1));
 	cv::Mat blue(cv::Size((int)HEIGHT,(int)WIDTH), CV_64FC1, cv::Scalar(0));
@@ -274,12 +273,12 @@ int main(){
 	}
 	cv::eigen2cv(imageR,red);
 
-	// Initialize agents at random position inside a circle
-	// looking at random directions
+	//initialize agents at random position looking at the center
 	int n_agents;
 	std::cout<<"Number of particles:"<<std::endl;
 	std::cin>>n_agents;
 	std::vector<Agent> agents;
+
 
 	for(int i = 0; i<n_agents;i++){
 		Agent a1;
@@ -338,21 +337,18 @@ int main(){
 			    fin.at<cv::Vec3f>(k,p).val[0]=blue.at<float>(cv::Point(p,k))*1.0;
 			    fin.at<cv::Vec3f>(k,p).val[2]=blue.at<float>(cv::Point(p,k))*0.5;
 			    fin.at<cv::Vec3f>(k,p).val[4]=blue.at<float>(cv::Point(p,k))*0.05;
-			    fin.at<cv::Vec3f>(k,p).val[0]=cmp2(255,
-			            fin.at<cv::Vec3f>(k,p).val[0] +
-			            green.at<float>(cv::Point(p,k))*0.05);
-			    fin.at<cv::Vec3f>(k,p).val[2]=cmp2(255,
-			            fin.at<cv::Vec3f>(k,p).val[2] +
-			            green.at<float>(cv::Point(p,k))*0.5);
-			    fin.at<cv::Vec3f>(k,p).val[4]=cmp2(255,
-			            fin.at<cv::Vec3f>(k,p).val[4] +
-			            green.at<float>(cv::Point(p,k))*1);
+			    fin.at<cv::Vec3f>(k,p).val[0]=cmp2(255,fin.at<cv::Vec3f>(k,p).val[0]+green.at<float>(cv::Point(p,k))*0.05);
+			    fin.at<cv::Vec3f>(k,p).val[2]=cmp2(255,fin.at<cv::Vec3f>(k,p).val[2]+green.at<float>(cv::Point(p,k))*0.5);
+			    fin.at<cv::Vec3f>(k,p).val[4]=cmp2(255,fin.at<cv::Vec3f>(k,p).val[4]+green.at<float>(cv::Point(p,k))*1);
+
 		    	}
 		}
+
 	    cv::imshow("Display Image", fin);
 
 
 //  Saving snapshots
+
 	    if(i==25){
 	    	cv::Mat3b image1;
 	    	fin.convertTo(image1,CV_8UC3,255);
