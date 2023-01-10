@@ -6,11 +6,13 @@ This implementation is based on the paper **Characteristics of pattern formation
 
 The implementation has two variants of particles, each attracted to traces of the same type and repelled by those of the opposite type. With these simple rules it is possible to observe the appearance of complex patterns such as those shown in the images below. 
 
-.container img {
-  float: left;
-  width: 50%;
+.wrapper {
+  display: inline-grid;
+  grid-template-columns: repeat(2, [col-start] 1fr);
+  grid-gap: 10px;
 }
-<div class="container">
+
+<div class="grid">
   <img src="https://github.com/martinnff/physarum-simulation/blob/main/i1.jpeg" />
   <img src="https://github.com/martinnff/physarum-simulation/blob/main/i2.jpeg" />
   <img src="https://github.com/martinnff/physarum-simulation/blob/main/i3.jpeg" />
