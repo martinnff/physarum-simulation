@@ -7,8 +7,8 @@ This implementation is based on the paper Characteristics of pattern formation a
 This implementation has two variants of particles, each attracted to traces of the same type and repelled by those of the opposite type. Con estas reglas sencillas es posible obserbas la aparicion de patrones complejos como los que se muestran en las imagenes de abajo.
 
 
-![Alt text](https://github.com/martinnff/physarum-simulation/blob/main/img1.jpeg "procedural landscape")
-![Alt text](https://github.com/martinnff/physarum-simulation/blob/main/img2.jpeg "procedural landscape")
-![Alt text](https://github.com/martinnff/physarum-simulation/blob/main/img3.jpeg "procedural landscape")
-![Alt text](https://github.com/martinnff/physarum-simulation/blob/main/img4.jpeg "procedural landscape")
+![Alt text](https://github.com/martinnff/physarum-simulation/blob/main/i1.jpeg "procedural landscape")
+![Alt text](https://github.com/martinnff/physarum-simulation/blob/main/i2.jpeg "procedural landscape")
+![Alt text](https://github.com/martinnff/physarum-simulation/blob/main/i3.jpeg "procedural landscape")
+![Alt text](https://github.com/martinnff/physarum-simulation/blob/main/i4.jpeg "procedural landscape")
 
