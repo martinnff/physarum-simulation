@@ -15,7 +15,6 @@
 //using namespace std;
 //using namespace cv;
 
-
 class Agent
 {
 public:
@@ -51,8 +50,6 @@ void evaporate(Eigen::MatrixXd & imageB, Eigen::MatrixXd & imageG, float factor 
 			imageG(i,j)=imageG(i,j)*factor;
 		}
 	}
-
-
 }
 // emulate de spreading of the trails
 void difusion(Eigen::MatrixXd & imageB,
@@ -72,8 +69,6 @@ void difusion(Eigen::MatrixXd & imageB,
 			baseG(i,j)=imageG(i-1,j+1)+imageG(i,j+1)+imageG(i+1,j+1) +
 						imageG(i-1,j)+imageG(i,j)+imageG(i+1,j) +
 						imageG(i-1,j-1)+imageG(i,j-1) +imageG(i+1,j-1);
-
-
 		}
 	}
 
@@ -120,12 +115,6 @@ void difusion(Eigen::MatrixXd & imageB,
 	imageG = baseG/9;
 }
 
-
-
-
-
-
-
 std::vector<float> sense(Agent & agent,Eigen::MatrixXd & imageB,
 							Eigen::MatrixXd & imageG,
 							float offset,int width,
@@ -141,7 +130,6 @@ std::vector<float> sense(Agent & agent,Eigen::MatrixXd & imageB,
     	return out;
     }
 }
-
 
 //Function to update the agents positions in each step
 void update(Agent & agent,Eigen::MatrixXd & imageB,
@@ -180,12 +168,12 @@ void update(Agent & agent,Eigen::MatrixXd & imageB,
 
         if(right > left){
         	if(right < threshold){
-	       	angle=angle+(rand()) / static_cast <float> (RAND_MAX) *offset1;
+	       	angle=angle+(rand_r()) / static_cast <float> (RAND_MAX) *offset1;
         	}
         }
         if(right < left){
         	if(left < threshold){
-        	angle=angle-(rand()) / static_cast <float> (RAND_MAX) *offset1;
+        	angle=angle-(rand_r()) / static_cast <float> (RAND_MAX) *offset1;
         	}
         }
     }
@@ -201,23 +189,21 @@ void update(Agent & agent,Eigen::MatrixXd & imageB,
 			        }
 		        }
 		    }
-
         if(right > left){
         	if(right < threshold){
-	       	angle=angle+(rand()) / static_cast <float> (RAND_MAX) *offset1;
+	       	angle=angle+(rand_r()) / static_cast <float> (RAND_MAX) *offset1;
         	}
         }
         if(right < left){
         	if(left < threshold){
-        	angle=angle-(rand()) / static_cast <float> (RAND_MAX) *offset1;
+        	angle=angle-(rand_r()) / static_cast <float> (RAND_MAX) *offset1;
         	}
         }
     }
 
-
 	//if going forward hits another particle, change the direction
 	if(forward >= threshold){
-		angle = angle + M_PI  -M_PI/4 +(rand()) / static_cast <float> (RAND_MAX) *M_PI/2;
+		angle = angle + M_PI  -M_PI/4 +(rand_r()) / static_cast <float> (RAND_MAX) *M_PI/2;
 	}
 
 	agent.angle = angle;
@@ -250,7 +236,6 @@ int main(){
 	Eigen::MatrixXd imageG((int)HEIGHT,(int)WIDTH);
 	Eigen::MatrixXd imageR((int)HEIGHT,(int)WIDTH);
 
-
 	int n_threads;
 	std::cout<<"N Threads:"<<std::endl;
 	std::cin>>n_threads;
@@ -261,7 +246,6 @@ int main(){
 	cv::Mat blue(cv::Size((int)HEIGHT,(int)WIDTH), CV_64FC1, cv::Scalar(0));
 	cv::Mat green(cv::Size((int)HEIGHT,(int)WIDTH), CV_64FC1, cv::Scalar(0));
 	cv::Mat red(cv::Size((int)HEIGHT,(int)WIDTH), CV_64FC1, cv::Scalar(0));
-
 
 	//Initialize trail maps to cero
 	cv::namedWindow("Display Image", cv::WINDOW_AUTOSIZE);
@@ -283,13 +267,13 @@ int main(){
 
 	for(int i = 0; i<n_agents;i++){
 		Agent a1;
-		float theta = (rand()) /static_cast <float> (RAND_MAX)*2*M_PI;
-		float r = (rand()) /static_cast <float> (RAND_MAX)* (HEIGHT/2-5);
-		float sign = -1 + (rand()) / static_cast <float> (RAND_MAX);
+		float theta = (rand_r()) /static_cast <float> (RAND_MAX)*2*M_PI;
+		float r = (rand_r()) /static_cast <float> (RAND_MAX)* (HEIGHT/2-5);
+		float sign = -1 + (rand_r()) / static_cast <float> (RAND_MAX);
 		a1.position[1] =  WIDTH/2 + r * cos(theta);
 		a1.position[0] =  HEIGHT/2 + r * sin(theta);
-		a1.angle = (rand()) /static_cast <float> (RAND_MAX)*2*M_PI;
-		float mask = 0.5 - (rand()) / static_cast <float> (RAND_MAX);
+		a1.angle = (rand_r()) /static_cast <float> (RAND_MAX)*2*M_PI;
+		float mask = 0.5 - (rand_r()) / static_cast <float> (RAND_MAX);
 		a1.mask = mask/abs(mask);
 		agents.push_back(a1);
 	}
