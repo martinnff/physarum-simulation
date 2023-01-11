@@ -109,7 +109,6 @@ void difusion(Eigen::MatrixXd & imageB,
 		//right col
 		baseG(i,0)=imageG(i-1,0)+imageG(i,0)+imageG(i+1,0)+
 			imageG(i-1,1)+imageG(i,1)+imageG(i+1,1);
-
 	}
 	imageB = baseB/9;
 	imageG = baseG/9;
@@ -214,8 +213,7 @@ void update(Agent & agent,Eigen::MatrixXd & imageB,
 	if(newpos[0] < 0 || newpos[1] < 0 || newpos[0] >= height || newpos[1] >= width){
 		newpos[0] = cmp2(height-0.01,cmp(0.0,newpos[0]));
 		newpos[1] = cmp2(width-0.01,cmp(0.0,newpos[1]));
-		agent.angle = (rand()) / static_cast <float> (RAND_MAX) * 2 * M_PI;
-
+		agent.angle = (rand_r()) / static_cast <float> (RAND_MAX) * 2 * M_PI;
 	};
 	//update agent position
 	agent.position[0]=newpos[0];
