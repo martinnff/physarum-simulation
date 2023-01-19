@@ -153,61 +153,63 @@ void update(Agent & agent,Eigen::MatrixXd & imageB,
 	// evaluate the direction with the higher diference (same species trail - other species trail).
 	// and a random angle in that direction
     if(agent.mask ==1){
-        forward = forward_v[0]-forward_v[1];
+        forward = forward_v[0]-forward_v[1]+0.001;
         right = right_v[0]-right_v[1];
         left = left_v[0]-left_v[1];
 
-        if(forward<threshold){
-            if(forward>right){
-	            if(forward > left){
-			        angle = angle;
-			        }
+        if(forward>right){
+            if(forward > left){
+		        angle = angle;
 		        }
-		    }
+	        }
 
         if(right > left){
-        	if(right < threshold){
 	       	angle=angle+(rand()) / static_cast <float> (RAND_MAX) *offset1;
-        	}
         }
         if(right < left){
-        	if(left < threshold){
         	angle=angle-(rand()) / static_cast <float> (RAND_MAX) *offset1;
         	}
         }
-    }
+
     if(agent.mask == -1){
-        forward = forward_v[1]-forward_v[0];
+        forward = forward_v[1]-forward_v[0]+0.001;
         right = right_v[1]-right_v[0];
         left = left_v[1]-left_v[0];
 
-        if(forward<threshold){
-            if(forward>right){
-	            if(forward > left){
-			        angle = angle;
-			        }
+        if(forward>right){
+            if(forward > left){
+		        angle = angle;
 		        }
-		    }
+	        }
         if(right > left){
-        	if(right < threshold){
-	       	angle=angle+(rand()) / static_cast <float> (RAND_MAX) *offset1;
-        	}
+	    	angle=angle+(rand()) / static_cast <float> (RAND_MAX) *offset1;
         }
         if(right < left){
-        	if(left < threshold){
         	angle=angle-(rand()) / static_cast <float> (RAND_MAX) *offset1;
-        	}
         }
     }
-
-	//if going forward hits another particle, change the direction
-	if(forward >= threshold){
-		angle = angle + M_PI  -M_PI/4 +(rand()) / static_cast <float> (RAND_MAX) *M_PI/2;
-	}
 
 	agent.angle = angle;
 	newpos[0]=agent.position[0]+sin(agent.angle)*speed;
     newpos[1]=agent.position[1]+cos(agent.angle)*speed;
+
+    	//if an agent hit the map boundaries get a new random angle
+	if(newpos[0] < 0 || newpos[1] < 0 || newpos[0] >= height || newpos[1] >= width){
+		newpos[0] = cmp2(height-0.01,cmp(0.0,newpos[0]));
+		newpos[1] = cmp2(width-0.01,cmp(0.0,newpos[1]));
+		agent.angle = (rand()) / static_cast <float> (RAND_MAX) * 2 * M_PI;
+	};
+
+	//if going forward hit another particle, change the direction
+		// trace concentration in the proposed position
+	float trace_new_pos_a = (float)imageB((int)newpos[0],(int)newpos[1]);
+	float trace_new_pos_b = (float)imageG((int)newpos[0],(int)newpos[1]);
+
+	if(trace_new_pos_a >= threshold or trace_new_pos_b >= threshold ){
+		agent.angle = (rand()) / static_cast <float> (RAND_MAX) * 2 * M_PI;
+		newpos[0]=agent.position[0]+sin(agent.angle)*speed;
+    	newpos[1]=agent.position[1]+cos(agent.angle)*speed;
+	}
 
 	//if an agent hit the map boundaries get a new random angle
 	if(newpos[0] < 0 || newpos[1] < 0 || newpos[0] >= height || newpos[1] >= width){
@@ -215,6 +217,7 @@ void update(Agent & agent,Eigen::MatrixXd & imageB,
 		newpos[1] = cmp2(width-0.01,cmp(0.0,newpos[1]));
 		agent.angle = (rand()) / static_cast <float> (RAND_MAX) * 2 * M_PI;
 	};
+
 	//update agent position
 	agent.position[0]=newpos[0];
 	agent.position[1]=newpos[1];
@@ -371,7 +374,5 @@ int main(){
 	    }
 	    cv::waitKey(1);
 	}
-
-
 	return 0;
 }
