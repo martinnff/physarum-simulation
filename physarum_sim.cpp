@@ -167,12 +167,12 @@ void update(Agent & agent,Eigen::MatrixXd & imageB,
 
         if(right > left){
         	if(right < threshold){
-	       	angle=angle+(rand_r()) / static_cast <float> (RAND_MAX) *offset1;
+	       	angle=angle+(rand()) / static_cast <float> (RAND_MAX) *offset1;
         	}
         }
         if(right < left){
         	if(left < threshold){
-        	angle=angle-(rand_r()) / static_cast <float> (RAND_MAX) *offset1;
+        	angle=angle-(rand()) / static_cast <float> (RAND_MAX) *offset1;
         	}
         }
     }
@@ -190,19 +190,19 @@ void update(Agent & agent,Eigen::MatrixXd & imageB,
 		    }
         if(right > left){
         	if(right < threshold){
-	       	angle=angle+(rand_r()) / static_cast <float> (RAND_MAX) *offset1;
+	       	angle=angle+(rand()) / static_cast <float> (RAND_MAX) *offset1;
         	}
         }
         if(right < left){
         	if(left < threshold){
-        	angle=angle-(rand_r()) / static_cast <float> (RAND_MAX) *offset1;
+        	angle=angle-(rand()) / static_cast <float> (RAND_MAX) *offset1;
         	}
         }
     }
 
 	//if going forward hits another particle, change the direction
 	if(forward >= threshold){
-		angle = angle + M_PI  -M_PI/4 +(rand_r()) / static_cast <float> (RAND_MAX) *M_PI/2;
+		angle = angle + M_PI  -M_PI/4 +(rand()) / static_cast <float> (RAND_MAX) *M_PI/2;
 	}
 
 	agent.angle = angle;
@@ -213,7 +213,7 @@ void update(Agent & agent,Eigen::MatrixXd & imageB,
 	if(newpos[0] < 0 || newpos[1] < 0 || newpos[0] >= height || newpos[1] >= width){
 		newpos[0] = cmp2(height-0.01,cmp(0.0,newpos[0]));
 		newpos[1] = cmp2(width-0.01,cmp(0.0,newpos[1]));
-		agent.angle = (rand_r()) / static_cast <float> (RAND_MAX) * 2 * M_PI;
+		agent.angle = (rand()) / static_cast <float> (RAND_MAX) * 2 * M_PI;
 	};
 	//update agent position
 	agent.position[0]=newpos[0];
@@ -265,13 +265,13 @@ int main(){
 
 	for(int i = 0; i<n_agents;i++){
 		Agent a1;
-		float theta = (rand_r()) /static_cast <float> (RAND_MAX)*2*M_PI;
-		float r = (rand_r()) /static_cast <float> (RAND_MAX)* (HEIGHT/2-5);
-		float sign = -1 + (rand_r()) / static_cast <float> (RAND_MAX);
+		float theta = (rand()) /static_cast <float> (RAND_MAX)*2*M_PI;
+		float r = (rand()) /static_cast <float> (RAND_MAX)* (HEIGHT/2-5);
+		float sign = -1 + (rand()) / static_cast <float> (RAND_MAX);
 		a1.position[1] =  WIDTH/2 + r * cos(theta);
 		a1.position[0] =  HEIGHT/2 + r * sin(theta);
-		a1.angle = (rand_r()) /static_cast <float> (RAND_MAX)*2*M_PI;
-		float mask = 0.5 - (rand_r()) / static_cast <float> (RAND_MAX);
+		a1.angle = (rand()) /static_cast <float> (RAND_MAX)*2*M_PI;
+		float mask = 0.5 - (rand()) / static_cast <float> (RAND_MAX);
 		a1.mask = mask/abs(mask);
 		agents.push_back(a1);
 	}
