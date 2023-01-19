@@ -153,71 +153,68 @@ void update(Agent & agent,Eigen::MatrixXd & imageB,
 	// evaluate the direction with the higher diference (same species trail - other species trail).
 	// and a random angle in that direction
     if(agent.mask ==1){
-        forward = forward_v[0]-forward_v[1]+0.001;
+        forward = forward_v[0]-forward_v[1];
         right = right_v[0]-right_v[1];
         left = left_v[0]-left_v[1];
 
-        if(forward>right){
-            if(forward > left){
-		        angle = angle;
+        if(forward<threshold){
+            if(forward>right){
+	            if(forward > left){
+			        angle = angle;
+			        }
 		        }
-	        }
+		    }
 
         if(right > left){
-	       	angle=angle+(rand()) / static_cast <float> (RAND_MAX) *offset1;
-        }
-        if(right < left){
-        	angle=angle-(rand()) / static_cast <float> (RAND_MAX) *offset1;
+        	if(right < threshold){
+	       	angle=angle+(rand_r()) / static_cast <float> (RAND_MAX) *offset1;
         	}
         }
-
+        if(right < left){
+        	if(left < threshold){
+        	angle=angle-(rand_r()) / static_cast <float> (RAND_MAX) *offset1;
+        	}
+        }
+    }
     if(agent.mask == -1){
-        forward = forward_v[1]-forward_v[0]+0.001;
+        forward = forward_v[1]-forward_v[0];
         right = right_v[1]-right_v[0];
         left = left_v[1]-left_v[0];
 
-        if(forward>right){
-            if(forward > left){
-		        angle = angle;
+        if(forward<threshold){
+            if(forward>right){
+	            if(forward > left){
+			        angle = angle;
+			        }
 		        }
-	        }
+		    }
         if(right > left){
-	    	angle=angle+(rand()) / static_cast <float> (RAND_MAX) *offset1;
+        	if(right < threshold){
+	       	angle=angle+(rand_r()) / static_cast <float> (RAND_MAX) *offset1;
+        	}
         }
         if(right < left){
-        	angle=angle-(rand()) / static_cast <float> (RAND_MAX) *offset1;
+        	if(left < threshold){
+        	angle=angle-(rand_r()) / static_cast <float> (RAND_MAX) *offset1;
+        	}
         }
     }
+
+	//if going forward hits another particle, change the direction
+	if(forward >= threshold){
+		angle = angle + M_PI  -M_PI/4 +(rand_r()) / static_cast <float> (RAND_MAX) *M_PI/2;
+	}
 
 	agent.angle = angle;
 	newpos[0]=agent.position[0]+sin(agent.angle)*speed;
     newpos[1]=agent.position[1]+cos(agent.angle)*speed;
 
-    	//if an agent hit the map boundaries get a new random angle
-	if(newpos[0] < 0 || newpos[1] < 0 || newpos[0] >= height || newpos[1] >= width){
-		newpos[0] = cmp2(height-0.01,cmp(0.0,newpos[0]));
-		newpos[1] = cmp2(width-0.01,cmp(0.0,newpos[1]));
-		agent.angle = (rand()) / static_cast <float> (RAND_MAX) * 2 * M_PI;
-	};
-
-	//if going forward hit another particle, change the direction
-		// trace concentration in the proposed position
-	float trace_new_pos_a = (float)imageB((int)newpos[0],(int)newpos[1]);
-	float trace_new_pos_b = (float)imageG((int)newpos[0],(int)newpos[1]);
-
-	if(trace_new_pos_a >= threshold or trace_new_pos_b >= threshold ){
-		agent.angle = (rand()) / static_cast <float> (RAND_MAX) * 2 * M_PI;
-		newpos[0]=agent.position[0]+sin(agent.angle)*speed;
-    	newpos[1]=agent.position[1]+cos(agent.angle)*speed;
-	}
-
 	//if an agent hit the map boundaries get a new random angle
 	if(newpos[0] < 0 || newpos[1] < 0 || newpos[0] >= height || newpos[1] >= width){
 		newpos[0] = cmp2(height-0.01,cmp(0.0,newpos[0]));
 		newpos[1] = cmp2(width-0.01,cmp(0.0,newpos[1]));
-		agent.angle = (rand()) / static_cast <float> (RAND_MAX) * 2 * M_PI;
+		agent.angle = (rand_r()) / static_cast <float> (RAND_MAX) * 2 * M_PI;
 	};
-
 	//update agent position
 	agent.position[0]=newpos[0];
 	agent.position[1]=newpos[1];
@@ -261,35 +258,21 @@ int main(){
 
 	// Initialize agents at random position inside a circle
 	// looking at random directions
-	int n_agents1;
-	int n_agents2;
-	std::cout<<"Number of type 1 particles:"<<std::endl;
-	std::cin>>n_agents1;
-	std::cout<<"Number of type 2 particles:"<<std::endl;
-	std::cin>>n_agents2;
+	int n_agents;
+	std::cout<<"Number of particles:"<<std::endl;
+	std::cin>>n_agents;
 	std::vector<Agent> agents;
 
-	for(int i = 0; i<n_agents1;i++){
+	for(int i = 0; i<n_agents;i++){
 		Agent a1;
-		float theta = (rand()) /static_cast <float> (RAND_MAX)*2*M_PI;
-		float r = (rand()) /static_cast <float> (RAND_MAX)* (HEIGHT/2-5);
-		float sign = -1 + (rand()) / static_cast <float> (RAND_MAX);
+		float theta = (rand_r()) /static_cast <float> (RAND_MAX)*2*M_PI;
+		float r = (rand_r()) /static_cast <float> (RAND_MAX)* (HEIGHT/2-5);
+		float sign = -1 + (rand_r()) / static_cast <float> (RAND_MAX);
 		a1.position[1] =  WIDTH/2 + r * cos(theta);
 		a1.position[0] =  HEIGHT/2 + r * sin(theta);
-		a1.angle = (rand()) /static_cast <float> (RAND_MAX)*2*M_PI;
-		a1.mask = -1;
-		agents.push_back(a1);
-	}
-
-	for(int i = 0; i<n_agents2;i++){
-		Agent a1;
-		float theta = (rand()) /static_cast <float> (RAND_MAX)*2*M_PI;
-		float r = (rand()) /static_cast <float> (RAND_MAX)* (HEIGHT/2-5);
-		float sign = -1 + (rand()) / static_cast <float> (RAND_MAX);
-		a1.position[1] =  WIDTH/2 + r * cos(theta);
-		a1.position[0] =  HEIGHT/2 + r * sin(theta);
-		a1.angle = (rand()) /static_cast <float> (RAND_MAX)*2*M_PI;
-		a1.mask = 1;
+		a1.angle = (rand_r()) /static_cast <float> (RAND_MAX)*2*M_PI;
+		float mask = 0.5 - (rand_r()) / static_cast <float> (RAND_MAX);
+		a1.mask = mask/abs(mask);
 		agents.push_back(a1);
 	}
 
@@ -311,7 +294,7 @@ int main(){
 	std::cin>>dist;
 	std::cout<<"Sensor angle:"<<std::endl;
 	std::cin>>offset;
-	int n_agents = agents.size();
+	n_agents = agents.size();
 	for(int i =0; i<100000; i++){
 		evaporate(imageB,imageG,factor);
 	    difusion(imageB,imageG,imageB.cols(),imageB.rows());
@@ -374,5 +357,7 @@ int main(){
 	    }
 	    cv::waitKey(1);
 	}
+
+
 	return 0;
 }
